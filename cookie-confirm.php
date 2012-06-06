@@ -1,0 +1,138 @@
+<?php 
+/*
+Plugin Name: Cookie Confirm
+Plugin URI: http://fishcantwhistle.com
+Description: Version: 1.0
+Author: Fish Can't Whistle
+*/
+
+if (!defined("CC_url")) { define("CC_url", WP_PLUGIN_URL.'/cookie-confirm'); } //NO TRAILING SLASH
+
+if (!defined("CC_dir")) { define("CC_dir", WP_PLUGIN_DIR.'/cookie-confirm'); } //NO TRAILING SLASH
+
+require_once ( CC_dir . '/theme-options.php' );
+
+$cookie_confirm = new cookie_confirm;
+
+class cookie_confirm{
+
+	private $cc_v = '1.0.5';
+
+	function cookie_confirm(){
+		$this->__construct();
+	}
+	
+	function __construct(){
+	
+		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+		
+		add_action('wp_footer', array($this, 'footer_js'));
+		
+	
+	}
+	
+	function enqueue_scripts(){
+			
+		wp_enqueue_script( 
+		     'cookie_consent'
+		    ,'http://assets.cookieconsent.silktide.com/'.$this->cc_v.'/plugin.min.js'
+		);	
+		
+		wp_enqueue_script(
+			'jquery'
+		);
+		
+		wp_enqueue_style(
+			'cookie_consent'
+			,'http://assets.cookieconsent.silktide.com/'.$this->cc_v.'/style.min.css'
+		);
+	
+	}
+	
+	function footer_js(){
+	
+		$options = get_option( 'cookie_confirm_options' ); print_r($options);
+	
+		echo '<script type="text/javascript">';
+		
+			echo '
+			// <![CDATA[
+			cc.initialise({
+				cookies: {';
+					if(isset($options['social_media']['checked'])){
+						echo '
+							social: {
+								title: \''.$options['social_media']['title'].'\',
+								description: \''.$options['social_media']['description'].'\',
+								link: \''.$options['social_media']['link'].'\'
+							},
+						';
+					};
+					if(isset($options['analytics']['checked'])){
+						echo '
+							analytics: {
+								title: \''.$options['analytics']['title'].'\',
+								description: \''.$options['analytics']['description'].'\',
+								link: \''.$options['analytics']['link'].'\'
+							},
+						';
+					};
+					if(isset($options['advertising']['checked'])){
+						echo '
+							advertising: {
+								title: \''.$options['advertising']['title'].'\',
+								description: \''.$options['advertising']['description'].'\',
+								link: \''.$options['advertising']['link'].'\'
+							},
+						';
+					};
+				echo '},
+				settings: {';
+					
+					if(isset($options['refreshOnConsent'])){
+						echo 'refreshOnConsent: true,';
+					}
+					
+					echo 'style: "'.$options['style'].'",';
+					
+					echo 'bannerPosition: "'.$options['bannerPosition'].'",';
+					
+					echo 'tagPosition: "'.$options['tagPosition'].'",';
+					
+					if(isset($options['useSSL'])){
+						echo 'useSSL: true,';
+					}
+					
+					echo 'consenttype: "'.$options['consenttype'].'",';
+					
+					if(isset($options['onlyshowbanneronce'])){
+						echo 'onlyshowbanneronce: true,';
+					}
+					
+					if(isset($options['hideallsitesbutton'])){
+						echo 'hideallsitesbutton: true,';
+					}
+					
+					if(isset($options['hideprivacysettingstab'])){
+						echo 'hideprivacysettingstab: true,';
+					}
+					
+				echo '}
+			});
+			// ]]>
+			
+			jQuery(document).ready(function() {
+			
+				jQuery(\'#cc-notification-permissions\').append(\'<a id="fcw_logo" class="" target="_blank" href="http://silktide.com/cookieconsent" title="Cookie Consent plugin for the EU cookie law" style="display: block; "><span>Cookie Consent plugin for the EU cookie law</span></a>\');
+				
+			});
+
+			';
+		
+		echo '</script>';
+	
+	}
+	
+}
+
+?>
