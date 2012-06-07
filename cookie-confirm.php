@@ -123,9 +123,35 @@ class cookie_confirm{
 			
 			jQuery(document).ready(function() {
 			
-				jQuery(\'#cc-notification-permissions\').append(\'<a id="fcw_logo" class="" target="_blank" href="http://silktide.com/cookieconsent" title="Cookie Consent plugin for the EU cookie law" style="display: block; "><span>Cookie Consent plugin for the EU cookie law</span></a>\');
+				check_cc();
 				
 			});
+			
+			function check_cc(){
+			
+				console.log(\'checking\');
+			
+				if(jQuery(\'#cc-notification-permissions\').length > 0){
+			
+					add_logo();
+				
+				}else{
+				
+					setTimeout(check_cc, 200);
+					
+					console.log(\'set timeout\');
+				
+				}
+			
+			}
+			
+			function add_logo(){
+			
+				jQuery(\'#cc-notification-permissions\').append(\'<a id="fcw_logo" class="" target="_blank" href="http://fishcantwhistle.com" title="WordPress Plugin by FCW" style="position: absolute;bottom: 16px;right: 88px;"><img src="'.CC_url.'/logo.png" /></a>\');
+				
+				jQuery(\'#cc-notification-logo\').css(\'width\', \'32px\');
+			
+			}
 
 			';
 		
