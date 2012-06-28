@@ -4,7 +4,7 @@ Donate link: http://fishcantwhistle.com
 Tags: cookie, confirm, consent, compliance, EU, preference, notification
 Requires at least: 3.3.2
 Tested up to: 3.3.2
-Stable tag: 0.2
+Stable tag: 0.3
 
 Cookie Confirm allows you to easily insert a customisable notification for your users to choose and save their cookie preferences.
 

@@ -4,7 +4,7 @@ Plugin Name: Cookie Confirm
 Plugin URI: http://fishcantwhistle.com
 Description: Cookie Confirm allows you to easily insert a customisable notification for your users to choose and save their cookie preferences.
 Author: Fish Can't Whistle
-Version: 0.2
+Version: 0.3
 */
 
 if (!defined("CC_url")) { define("CC_url", WP_PLUGIN_URL.'/cookie-confirm'); } //NO TRAILING SLASH
@@ -17,7 +17,7 @@ $cookie_confirm = new cookie_confirm;
 
 class cookie_confirm{
 
-	private $cc_v = '1.0.5';
+	private $cc_v = 'current';
 
 	function cookie_confirm(){
 		$this->__construct();
